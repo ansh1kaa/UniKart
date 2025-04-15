@@ -1,7 +1,7 @@
 package io.github.ansh1kaa.unikart.product;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,45 +11,36 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/products")
+
 public class ProductController {
 
     @Autowired
-
     private ProductService service;
 
     @PostMapping
     public Product create(@RequestBody Product product) throws ProductValidationException {
-        return getService().createProduct(product);
+        return service.createProduct(product);
     }
 
     @GetMapping
     public List<Product> getAll() throws ProductNotFoundException {
-        return getService().getAllProducts();
+        return service.getAllProducts();
     }
 
     @GetMapping("/{name}")
     public Product getByName(@PathVariable String name) throws ProductNotFoundException {
-        return getService().getProductByName(name);
+        return service.getProductByName(name);
     }
 
     @PutMapping("/{id}")
     public Product updateName(@PathVariable Long id, @RequestParam String name)
             throws ProductValidationException {
-        return getService().updateProductName(id, name);
+        return service.updateProductName(id, name);
     }
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable Long id) throws ProductNotFoundException {
-        getService().deleteProduct(id);
+        service.deleteProduct(id);
         return "Product deleted successfully.";
     }
-
-    /**
-     *
-     */
-    public ProductService getService() {
-        return service;
-    }
-
-
 }

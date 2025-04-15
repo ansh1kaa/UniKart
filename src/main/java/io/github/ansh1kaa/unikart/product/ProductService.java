@@ -1,10 +1,13 @@
 package io.github.ansh1kaa.unikart.product;
 
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 /**
  * Interface for product service logic.
  */
+@Service
 public interface ProductService {
 
     Product createProduct(Product product) throws ProductValidationException;

@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
+import javax.management.relation.Role;
 import java.util.Objects;
 
 
@@ -39,6 +40,16 @@ public class User {
     @Column(nullable = false)
     private String email;
 
+    public void setRole(Role newrole) {
+        if (newrole == null) {
+            throw new IllegalArgumentException("Role cannot be null.");
+        }
+        this.role = newRole();
+    }
+
+    private String newRole() {
+        return "Role can either buyer or seller";
+    }
 
     private String role;
 
@@ -62,13 +73,14 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
+    public  void setPassword(String password) {
         this.password = password;
     }
 
@@ -100,7 +112,7 @@ public class User {
         return phone;
     }
 
-    public void setPhone(String phone) {
+    public  void setPhone(String phone) {
         this.phone = phone;
     }
 
