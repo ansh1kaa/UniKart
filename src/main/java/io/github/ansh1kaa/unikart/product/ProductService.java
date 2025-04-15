@@ -10,6 +10,8 @@ import java.util.List;
 @Service
 public interface ProductService {
 
+    Product addProduct(Product product);
+
     Product createProduct(Product product) throws ProductValidationException;
 
     List<Product> getAllProducts() throws ProductNotFoundException;
