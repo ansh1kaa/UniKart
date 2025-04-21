@@ -13,8 +13,6 @@ Optional<User> findByEmail(String email);
 boolean existsByEmail(String email);
 Optional<User> findByPhone(String phone);
 boolean existsByPhone(String phone);
-Optional<User> findByPassword(String password);
-boolean existsByPassword(String password);
 Optional<User>findUserByid(Long id);
 boolean existsById(Long id);
 

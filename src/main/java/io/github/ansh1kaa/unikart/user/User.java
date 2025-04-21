@@ -10,7 +10,7 @@ import java.util.Objects;
 
 
 @Entity
-
+@Table (name= "user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +28,7 @@ public class User {
      * give strong password.
      * Cannot be blank or null.
      */
-    @Pattern(regexp = "^(@&$%^*#!?)" , message = "Password should includes at least one special character.")
+    @Pattern(regexp = "^(@&$%^*#!?)" , message = "Password should includes at least one special character @&$%^*#!?  .")
     @Column(nullable = false)
     private String password;
 

@@ -40,7 +40,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
      * @param name the name of the product to search for
      * @return an Optional containing the found product, or an empty Optional if no product exists with the given name
      */
-    Optional<Product> findByName(String name);
+    default Optional<Product> findByName(String name) {
+        return null;
+    }
 
     /**
      * Finds all products with a price greater than the specified value.
@@ -52,7 +54,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
      * @param price the minimum price threshold
      * @return a list of products with prices greater than the specified value
      */
-    List<Product> findByPriceGreaterThan(double price);
+    default List<Product> findByPriceGreaterThan(double price) {
+        return null;
+    }
 
     /**
      * Finds all products whose name contains the specified keyword, ignoring case.

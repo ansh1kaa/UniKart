@@ -141,4 +141,12 @@ public class Product {
                 ", imageUrl='" + imageUrl + '\'' +
                 '}';
     }
+
+    public Object getQuantity() {
+        return null;
+    }
+
+    public void setQuantity(Object quantity) {
+
+    }
 }

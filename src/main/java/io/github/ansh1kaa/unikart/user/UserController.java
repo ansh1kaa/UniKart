@@ -13,12 +13,15 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     @Autowired
     private UserService userService;
+    private String email;
+    private Long id;
 
 
     @GetMapping
     public Iterable<User> getAllUsers() {
         return userService.getAllUsers();
     }
+
 
     @GetMapping("/{id}")
     public User getUserById(@PathVariable Long id) {
@@ -49,6 +52,7 @@ public class UserController {
 
     @GetMapping("/email/{email}")
     public User getUserByEmail(@PathVariable String email) {
+        this.email = email;
         return null;
     }
     @PutMapping("/update/{id}")
@@ -62,8 +66,18 @@ public class UserController {
         return ResponseEntity.ok("User deleted successfully.");
     }
 
+    @GetMapping("/role/{id}")
+    public ResponseEntity<String> getRole(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.getUserById(id).getRole());
+    }
+
+
+
+    @PostMapping
+
     @PutMapping("/switch-role/{id}")
     public ResponseEntity<String> switchRole(@PathVariable Long id) {
+        this.id = id;
         return ResponseEntity.ok("Role changed successfully.");
     }
 
@@ -77,6 +91,19 @@ public class UserController {
     }
 
 
+    public String getEmail() {
+        return email;
+    }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

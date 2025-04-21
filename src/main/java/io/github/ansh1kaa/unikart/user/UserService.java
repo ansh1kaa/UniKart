@@ -9,11 +9,13 @@ import java.util.List;
 @Service
 public class UserService {
     private UserRepository userRepository;
+    private String email;
 
     @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -22,6 +24,17 @@ public class UserService {
     public User getUserById(Long id) {
         return userRepository.findUserByid(id)
                 .orElseThrow(() -> new RuntimeException("User not found with this id: "));
+
+    }
+
+    public User findByEmail(String email) {
+        this.email = email;
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found by email"));
+    }
+    public User findByPhone(String phone) {
+        return userRepository.findByUsername(phone)
+                .orElseThrow(() -> new RuntimeException("User not found by username"));
     }
 
     public User registerUser(User user) {
@@ -32,6 +45,12 @@ public class UserService {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found by email"));
     }
+    public User getUserByPhone(String phone) {
+        return userRepository.findByUsername(phone)
+                .orElseThrow(() -> new RuntimeException("User not found by username"));
+    }
+
+
 
     public User updateUser(Long id, User updateUser) {
         User user = getUserById(id);
@@ -44,6 +63,10 @@ public class UserService {
     }
 
     public void deleteUser(Long id) {
+    }
+
+    public String getEmail() {
+        return email;
     }
 }
 
