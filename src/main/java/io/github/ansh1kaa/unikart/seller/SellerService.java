@@ -1,64 +1,85 @@
 package io.github.ansh1kaa.unikart.seller;
-import io.github.ansh1kaa.unikart.buyer.SellerRepository;
+
+import io.github.ansh1kaa.unikart.seller.SellerRepository;
 import io.github.ansh1kaa.unikart.product.Product;
 import io.github.ansh1kaa.unikart.product.ProductNotFoundException;
+import io.github.ansh1kaa.unikart.product.ProductRepository;
 import io.github.ansh1kaa.unikart.product.ProductValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
 public abstract class SellerService {
+
     @Autowired
     private SellerRepository sellerRepository;
 
-    public Seller register(Seller seller) {
-        return sellerRepository.save(seller);
+    @Autowired
+    public ProductRepository productRepository; // ✅ Add this
+
+    // ... Seller methods ...
+
+    // Create
+    public Product addProduct(Product product) {
+        return productRepository.save(product); // ✅ Use injected productRepository
     }
-
-    public Seller login(String email, String password) {
-        Seller s = sellerRepository.findByEmail(email);
-        if (s != null && s.getPassword().equals(password)) return s;
-        return null;
-    }
-
-    public List<Seller> getAll() {
-        return sellerRepository.findAll();
-    }
-
-    public Seller getById(Long id) {
-        return sellerRepository.findById(id).orElse(null);
-    }
-
-    public Seller update(Long id, Seller newSeller) {
-        Seller existing = sellerRepository.findById(id).orElse(null);
-        if (existing != null) {
-            existing.setUsername(newSeller.getUsername());
-            existing.setEmail(newSeller.getEmail());
-            existing.setPassword(newSeller.getPassword());
-            existing.setPhone(newSeller.getPhone());
-            return sellerRepository.save(existing);
-        }
-        return null;
-    }
-
-    public void delete(Long id) {
-        sellerRepository.deleteById(id);
-    }
-
-    public Product addProduct() {
-        return addProduct(null);
-
-    }
-
-    public abstract Product addProduct(Product product);
 
     public abstract Product createProduct(Product product) throws ProductValidationException;
 
-    public abstract Product getProductByName(String name) throws ProductNotFoundException;
+    // Read
+    public Product getProductByName(String name) throws ProductNotFoundException {
+        return productRepository.findByName(name)
+                .orElseThrow(() -> new ProductNotFoundException("Product not found with name: " + name));
+    }
 
-    public abstract Product updateProductName(Long id, String newName) throws ProductValidationException;
+    public Product getProductById(Long id) throws ProductNotFoundException {
+        return productRepository.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException("Product not found with id: " + id));
+    }
 
-    public abstract boolean deleteProduct(Long id) throws ProductNotFoundException;
+    public List<Product> getAllProducts() {
+        return productRepository.findAll();
+    }
+
+    // Update
+    public Product updateProductName(Long id, String newName) throws ProductValidationException {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new ProductValidationException("Invalid product ID"));
+
+        product.setName(newName);
+        return productRepository.save(product);
+    }
+
+    public Product updateProduct(Long id, Product updatedProduct) throws ProductValidationException {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new ProductValidationException("Invalid product ID"));
+
+        product.setName(updatedProduct.getName());
+        product.setPrice(updatedProduct.getPrice());
+        return productRepository.save(product);
+    }
+
+    // Delete
+    public boolean deleteProduct(Long id) throws ProductNotFoundException {
+        if (!productRepository.existsById(id)) {
+            throw new ProductNotFoundException("Product not found with ID: " + id);
+        }
+        productRepository.deleteById(id);
+        return true;
+    }
+
+    // Utility
+    public boolean productExists(Long id) {
+        return productRepository.existsById(id);
+    }
+
+    public SellerRepository getSellerRepository() {
+        return sellerRepository;
+    }
+
+    public void setSellerRepository(SellerRepository sellerRepository) {
+        this.sellerRepository = sellerRepository;
+    }
 }
-

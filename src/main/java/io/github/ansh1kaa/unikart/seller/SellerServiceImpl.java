@@ -1,16 +1,18 @@
 package io.github.ansh1kaa.unikart.seller;
 
 import io.github.ansh1kaa.unikart.buyer.BuyerRepository;
-import io.github.ansh1kaa.unikart.buyer.SellerRepository;
+import io.github.ansh1kaa.unikart.seller.SellerRepository;
 import io.github.ansh1kaa.unikart.product.Product;
 import io.github.ansh1kaa.unikart.product.ProductNotFoundException;
 import io.github.ansh1kaa.unikart.product.ProductValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service // Indicates that this is a service component to be managed by Spring
+@Qualifier
 public class SellerServiceImpl extends SellerService {
 
     @Autowired
@@ -28,8 +30,8 @@ public class SellerServiceImpl extends SellerService {
         return null;
     }
 
-    public List<Seller> getAllProducts() {
-        return repo.findAll(); // Fetch all products from the database
+    public List<Product> getAllProducts() {
+        return productRepository.findAll(); // Fetch all products from the database
     }
 
     @Override

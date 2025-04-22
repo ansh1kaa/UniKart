@@ -2,12 +2,14 @@ package io.github.ansh1kaa.unikart.buyer;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Primary
 public class BuyerServiceImpl extends BuyerService {
 
     @Autowired
